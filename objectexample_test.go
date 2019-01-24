@@ -21,7 +21,7 @@ func (p Person) MarshalLogObject(enc zapcore.ObjectEncoder) error {
 	return nil
 }
 
-func Example() {
+func Example_object() {
 	config := zap.NewProductionEncoderConfig()
 	config.TimeKey = ""
 

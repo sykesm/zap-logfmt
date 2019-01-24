@@ -5,7 +5,7 @@ This package provides a logfmt encoder for [zap][zap].
 It is a fork of [github.com/jsternberg/zap-logfmt][jsternberg] that improves
 the handling of reflected fields and encodes arrays and objects instead of
 dropping them from logs. While logging simple fields is preferred for many
-reasons, having occasional ugly data in logs is better than missing data.
+reasons, having ugly data is often better than missing data.
 
 [![Build Status](https://travis-ci.org/sykesm/zap-logfmt.svg?branch=master)](https://travis-ci.org/sykesm/zap-logfmt)
 [![GoDoc](https://godoc.org/github.com/sykesm/zap-logfmt?status.svg)](https://godoc.org/github.com/sykesm/zap-logfmt)
