@@ -150,9 +150,11 @@ func TestEncoderSimple(t *testing.T) {
 
 type stringer string
 type textMarshaler string
+type jsonMarshaler string
 
 func (s stringer) String() string                    { return string(s) }
 func (t textMarshaler) MarshalText() ([]byte, error) { return []byte(t), nil }
+func (j jsonMarshaler) MarshalJSON() ([]byte, error) { return []byte(j), nil }
 
 func TestEncoderReflected(t *testing.T) {
 	dummyFunc := func(string) {}
@@ -168,6 +170,7 @@ func TestEncoderReflected(t *testing.T) {
 		{"bytes", "bytes", []byte("bytes")},
 		{"stringer", "my-stringer", stringer("my-stringer")},
 		{"text marshaler", "marshaled-text", textMarshaler("marshaled-text")},
+		{"json marshaler", `"{\"json\":\"data\"}"`, textMarshaler(`{"json":"data"}`)},
 		{"bool", "true", true},
 		{"int", "-1", -int(1)},
 		{"int8", "-8", int8(-8)},
@@ -322,7 +325,7 @@ func TestArrayEncoderComplex(t *testing.T) {
 			f: func(enc zapcore.ArrayEncoder) error {
 				for i := 0; i < 3; i++ {
 					enc.AppendObject(zapcore.ObjectMarshalerFunc(func(oe zapcore.ObjectEncoder) error {
-						oe.AddInt(string('a'+i), i)
+						oe.AddInt(string(rune('a'+i)), i)
 						return nil
 					}))
 				}
@@ -431,7 +434,7 @@ func TestObjectEncoderComplex(t *testing.T) {
 				for i := 0; i < 3; i++ {
 					enc.AddObject(strconv.Itoa(i), zapcore.ObjectMarshalerFunc(func(oe zapcore.ObjectEncoder) error {
 						for j := 0; j < 3; j++ {
-							oe.AddInt(string('a'+i*3+j), i*3+j+1)
+							oe.AddInt(string(rune('a'+i*3+j)), i*3+j+1)
 						}
 						return nil
 					}))
